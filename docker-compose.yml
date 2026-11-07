@@ -1,0 +1,58 @@
+services:
+  dotnet-api:
+    build:
+      context: ./dotnet-api
+      dockerfile: Dockerfile
+    container_name: jconf-dotnet-api
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    healthcheck:
+      test: ["CMD", "dotnet", "--list-sdks"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jconf-network
+
+  java-api:
+    build:
+      context: ./java-api
+      dockerfile: Dockerfile
+    container_name: jconf-java-api
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/tareas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jconf-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jconf-frontend
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_DOTNET_API_URL=http://localhost:5000
+      - NEXT_PUBLIC_JAVA_API_URL=http://localhost:8081
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GROQ_MODEL=${GROQ_MODEL:-llama-3.3-70b-versatile}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    depends_on:
+      - dotnet-api
+      - java-api
+    networks:
+      - jconf-network
+
+networks:
+  jconf-network:
+    driver: bridge
