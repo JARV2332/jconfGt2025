@@ -490,36 +490,78 @@ export function ConsejosSlide() {
   );
 }
 
+function QrCard({
+  href,
+  src,
+  alt,
+  kicker,
+  title,
+  handle,
+}: {
+  href: string;
+  src: string;
+  alt: string;
+  kicker: string;
+  title: string;
+  handle: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center gap-4 rounded-2xl bg-white p-4 text-[#090224] shadow-lg"
+    >
+      <img src={src} alt={alt} className="h-32 w-32 shrink-0 rounded-lg bg-white" />
+      <div className="min-w-0">
+        <p className="text-xs font-bold tracking-[0.16em] text-[#F29111]">{kicker}</p>
+        <p className="mt-1 text-2xl/snug font-bold">{title}</p>
+        <p className="mt-1 text-sm text-gray-600 break-all">{handle}</p>
+      </div>
+    </a>
+  );
+}
+
 export function GraciasSlide() {
   return (
-    <div className="overflow-hidden rounded-[2rem] bg-[#090224] text-white shadow-2xl min-h-[68vh] flex flex-col justify-between">
-      <div className="px-8 md:px-14 pt-12 pb-8 grid lg:grid-cols-[1fr_240px] gap-8 items-center">
+    <div className="rounded-[2rem] bg-[#090224] text-white shadow-2xl px-6 py-8 md:px-10 md:py-10">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
           <Eyebrow>Cierre</Eyebrow>
-          <h2 className="mt-6 text-5xl/snug md:text-7xl/snug font-bold">Gracias</h2>
-          <p className="mt-4 text-3xl/snug md:text-4xl/snug font-bold text-[#F29111]">¿Preguntas?</p>
-          <p className="mt-8 text-lg text-white/80 max-w-xl">
-            Java para desarrolladores que vienen de .NET
-          </p>
-          <p className="mt-2 text-[#7fd0df] font-semibold">
+          <h2 className="mt-3 text-5xl/snug font-bold">Gracias</h2>
+          <p className="mt-2 text-3xl/snug font-bold text-[#F29111]">¿Preguntas?</p>
+          <p className="mt-4 text-white/80">Java para desarrolladores que vienen de .NET</p>
+          <p className="mt-1 font-semibold text-[#7fd0df]">
             Jorge Alberto Romero Villanueva · JConf 2026 Guatemala · Sala 2
           </p>
-          <a
-            href="https://github.com/JARV2332"
-            className="inline-block mt-6 text-lg font-semibold text-white underline decoration-[#F29111] underline-offset-4"
-          >
-            github.com/JARV2332
-          </a>
         </div>
         <img
           src="/jorge.jpg"
           alt="Jorge Alberto Romero Villanueva"
-          className="w-52 h-64 object-cover object-top rounded-[1.5rem] border-4 border-[#F29111] shadow-2xl mx-auto"
+          className="h-40 w-32 shrink-0 rounded-2xl border-4 border-[#F29111] object-cover object-top shadow-xl"
         />
       </div>
-      <div className="px-8 md:px-14 py-6 text-xs font-semibold tracking-[0.22em] text-[#F29111]">
-        JCONF 2026 GT
+
+      <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <QrCard
+          href="https://www.facebook.com/edukidsgt"
+          src="/qr-edukids.svg"
+          alt="Código QR de Facebook de EduKids"
+          kicker="Facebook"
+          title="EduKids"
+          handle="facebook.com/edukidsgt"
+        />
+        <QrCard
+          href="https://www.linkedin.com/in/jarv28/"
+          src="/qr-linkedin.svg"
+          alt="Código QR de LinkedIn de Jorge Romero"
+          kicker="LinkedIn"
+          title="Jorge Romero"
+          handle="linkedin.com/in/jarv28"
+        />
       </div>
+
+      <p className="mt-6 text-xs font-semibold tracking-[0.22em] text-[#F29111]">JCONF 2026 GT</p>
     </div>
   );
 }

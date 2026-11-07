@@ -113,7 +113,7 @@ export default function HomePage() {
       {/* Header + nav stay together so section titles are not trapped underneath */}
       <div className="sticky top-0 z-50">
         <header className="bg-[#090224] text-white shadow-lg">
-          <div className="container mx-auto px-6 py-4">
+          <div className="container mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl/snug font-bold font-heading">
@@ -134,17 +134,17 @@ export default function HomePage() {
         </header>
 
         <div className="bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
-          <div className="container mx-auto px-6 py-3">
-            <div className="flex items-center gap-3 overflow-x-auto">
+          <div className="container mx-auto px-6 py-2.5 flex items-center gap-3">
+            <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1">
               {sections.map((section, idx) => {
                 const Icon = section.icon;
                 return (
                   <button
                     key={section.id}
                     onClick={() => setCurrentSection(idx)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                       currentSection === idx
-                        ? "bg-gradient-to-r from-[#F29111] to-[#00758F] text-white shadow-lg scale-105"
+                        ? "bg-gradient-to-r from-[#F29111] to-[#00758F] text-white shadow-md"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -154,12 +154,35 @@ export default function HomePage() {
                 );
               })}
             </div>
+            <p className="hidden lg:block shrink-0 text-xs text-gray-500 whitespace-nowrap">
+              {currentSection + 1}/{sections.length} · ← → · F
+            </p>
+            <div className="flex shrink-0 items-center gap-2">
+              <Button
+                onClick={() => setCurrentSection((curr) => Math.max(0, curr - 1))}
+                disabled={currentSection === 0}
+                size="sm"
+                className="bg-white text-[#090224] border border-gray-200 hover:bg-gray-100 shadow-sm"
+              >
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Anterior
+              </Button>
+              <Button
+                onClick={() => setCurrentSection((curr) => Math.min(sections.length - 1, curr + 1))}
+                disabled={currentSection === sections.length - 1}
+                size="sm"
+                className="bg-gradient-to-r from-[#F29111] to-[#00758F] hover:opacity-90 text-white shadow-sm"
+              >
+                Siguiente
+                <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="pt-10 pb-28">
+      <main className="pt-8 pb-10">
         <div className="container mx-auto px-6">
           <AnimatePresence mode="wait">
             <motion.div
@@ -196,34 +219,6 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Navigation Controls */}
-      <div className="fixed bottom-6 right-6 flex items-center gap-3">
-        {currentSection > 0 && (
-          <Button
-            onClick={() => setCurrentSection(curr => curr - 1)}
-            size="lg"
-            className="bg-white text-[#090224] hover:bg-gray-100 shadow-2xl"
-          >
-            <ArrowLeft className="h-5 w-5 mr-2" />
-            Anterior
-          </Button>
-        )}
-        {currentSection < sections.length - 1 && (
-          <Button
-            onClick={() => setCurrentSection(curr => curr + 1)}
-            size="lg"
-            className="bg-gradient-to-r from-[#F29111] to-[#00758F] hover:opacity-90 text-white shadow-2xl"
-          >
-            Siguiente
-            <ArrowRight className="h-5 w-5 ml-2" />
-          </Button>
-        )}
-      </div>
-
-      {/* Keyboard Hints */}
-      <div className="fixed bottom-6 left-6 text-xs text-gray-500">
-        <p>{currentSection + 1} / {sections.length} · ← → para navegar | F para pantalla completa</p>
-      </div>
     </div>
   );
 }
